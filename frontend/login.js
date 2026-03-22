@@ -6,13 +6,12 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 
   const res = await fetch("http://localhost:5000/api/auth/login", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {"Content-Type": "application/json"},
     body: JSON.stringify({ email, password })
   });
 
   const data = await res.json();
 
   localStorage.setItem("token", data.token);
-
   window.location.href = "dashboard.html";
 });
