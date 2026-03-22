@@ -1,19 +1,16 @@
 const token = localStorage.getItem("token");
 
-// Get user
-async function getUser() {
-  const res = await fetch("http://localhost:5000/api/users/me", {
+async function loadData() {
+  // user
+  const userRes = await fetch("http://localhost:5000/api/users/me", {
     headers: { Authorization: token }
   });
+  const user = await userRes.json();
 
-  const user = await res.json();
+  document.getElementById("username").innerText = user.name;
+  document.getElementById("points").innerText = user.points;
 
-  document.getElementById("username").innerText = "Welcome " + user.name;
-  document.getElementById("points").innerText = "Points: " + user.points;
-}
-
-// Leaderboard
-async function getLeaderboard() {
+  // leaderboard
   const res = await fetch("http://localhost:5000/api/users/leaderboard");
   const data = await res.json();
 
@@ -26,11 +23,4 @@ async function getLeaderboard() {
   });
 }
 
-// Button
-function startPractice() {
-  alert("Practice module coming next 🚀");
-}
-
-// load
-getUser();
-getLeaderboard();
+loadData();
