@@ -3,7 +3,6 @@ from config.db import db
 import bcrypt, jwt
 
 auth_bp = Blueprint("auth", __name__)
-
 SECRET = "secret"
 
 @auth_bp.route("/register", methods=["POST"])
@@ -12,15 +11,14 @@ def register():
 
     hashed = bcrypt.hashpw(data["password"].encode(), bcrypt.gensalt())
 
-    user = {
+    db.users.insert_one({
         "name": data["name"],
         "email": data["email"],
         "password": hashed,
         "points": 0
-    }
+    })
 
-    db.users.insert_one(user)
-    return jsonify({"msg": "User registered"})
+    return jsonify({"msg": "Registered"})
 
 @auth_bp.route("/login", methods=["POST"])
 def login():
